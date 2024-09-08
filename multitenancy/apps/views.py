@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from django.contrib import messages
 from django.urls.base import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 import sweetify
 from tenant_users.tenants.models import InactiveError, ExistsError
 from tenant_users.tenants.utils import get_tenant_model, get_tenant_domain_model
@@ -15,6 +15,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from account.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
+from django_tenants.utils import get_tenant_type_choices
 
 from multitenancy.admin.views.baseViews import (
     AdminListView,
@@ -29,7 +30,7 @@ from multitenancy.admin.views.baseViews import (
 )
 from .filters import TenantFilter
 from multitenancy.subscriptions.models import Plan, Subscription
-from .models import Tenant
+from .models import Tenant, get_types
 from .serializers import TenantSerializer
 
 
@@ -38,20 +39,21 @@ class TemplateListView(LoginRequiredMixin, AdminTemplateView):
 
 
 class CreateTemplateView(LoginRequiredMixin, AdminView):
-    
+
     success_url = reverse_lazy("template_list")
-    template_name = "multitenancy/apps/create_template.html"
+    template_name = "multitenancy/apps/includes/create_template_modal.html"
 
     def get(self, request, *args, **kwargs):
         form = TenantForm()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
     def post(self, request):
         form = TenantForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data["name"]
             tenant_slug = form.cleaned_data["slug"]
-            type = form.cleaned_data["type"]
+            description = form.cleaned_data["description"]
+            # type = form.cleaned_data["type"]
             user = request.user
 
             if not user.is_active:
@@ -64,31 +66,40 @@ class CreateTemplateView(LoginRequiredMixin, AdminView):
             domain = None
             tenant = None
             try:
-                tenant = Tenant.objects.create(
-                    name=name,
-                    slug=tenant_slug,
-                    schema_name=schema_name,
-                    owner=user,
-                    is_template=True,
-                    type=type,
+                for tenant_type in get_types():
+                    tenant = Tenant.objects.create(
+                        name=f"{name}-{tenant_type[0]}",
+                        slug=f"{tenant_slug}-{tenant_type[0]}",
+                        description=description,
+                        schema_name=f"{schema_name}-{tenant_type[0]}",
+                        owner=user,
+                        is_template=True,
+                        type=tenant_type[0],
+                    )
+                    domain = get_tenant_domain_model().objects.create(
+                        domain=f"{tenant_slug}-{tenant_type[0]}.{settings.TENANT_USERS_DOMAIN}",
+                        tenant=tenant,
+                        is_primary=True,
+                    )
+                    tenant.add_user(user, is_superuser=True, is_staff=True)
+                    tenant.auto_create_schema = False
+                    tenant.save()
+
+                # sweetify.success(
+                #     request, "Successfully Created Tenant!", icon="success", timer=5000
+                # )
+                return JsonResponse(
+                    {"status": "success", "url": reverse("tenant_list")}
                 )
-                domain = get_tenant_domain_model().objects.create(
-                    domain=tenant_domain, tenant=tenant, is_primary=True
-                )
-                tenant.add_user(user, is_superuser=True, is_staff=True)
-                tenant.auto_create_schema = False
-                tenant.save()
-                sweetify.success(
-                request, "Successfully Created Tenant!", icon="success", timer=5000
-            )
-               
             except Exception:
                 if domain is not None:
                     domain.delete()
                 if tenant is not None:
                     tenant.delete(True)
+                    return JsonResponse({"status": "error"})
                 raise
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
+
 
 class UpdateTemplateView(LoginRequiredMixin, AdminUpdateView):
     model = Tenant
@@ -99,8 +110,8 @@ class UpdateTemplateView(LoginRequiredMixin, AdminUpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         sweetify.success(
-                self.request, "Successfully Created Tenant!", icon="success", timer=5000
-            )
+            self.request, "Successfully Created Tenant!", icon="success", timer=5000
+        )
         return response
 
 
@@ -115,8 +126,8 @@ class DeleteTemplateView(LoginRequiredMixin, AdminDeleteView):
         tenant = Tenant.objects.filter(id=tenant_id)
         tenant.delete()
         sweetify.success(
-                request, "Successfully Delete Tenant!", icon="success", timer=5000
-            )
+            request, "Successfully Delete Tenant!", icon="success", timer=5000
+        )
         return HttpResponseRedirect(reverse("tenant_list", urlconf="multitenancy.urls"))
 
 

@@ -14,11 +14,13 @@ from tenant_users.tenants.utils import get_tenant_model, get_tenant_domain_model
 from multitenancy.admin.decorators import allowed_users
 from multitenancy.admin.models import Admin, Settings
 from multitenancy.order.models import Order
-from multitenancy.profiles.models import Profile
+
+# from multitenancy.profiles.models import Profile
 from tenant_users.tenants.models import InactiveError, ExistsError
 from django.views.generic import View
 from account.mixins import LoginRequiredMixin
-from helpdesk.models import Ticket
+
+# from helpdesk.models import Ticket
 from multitenancy.admin.filters import CustomerFilter
 
 
@@ -28,7 +30,8 @@ from multitenancy.subscriptions.models import (
     ProductType,
     Subscription,
 )
-from multitenancy.teams.models import SimpleTeam, Team
+
+# from multitenancy.teams.models import SimpleTeam, Team
 from account.mixins import LoginRequiredMixin
 
 
@@ -48,7 +51,7 @@ from .baseViews import (
 
 
 class AdminIndexView(LoginRequiredMixin, AdminTemplateView):
-    template_name = "multitenancy/admin/adminUser/index.html"
+    template_name = "multitenancy/admin/index.html"
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -73,7 +76,7 @@ class AdminIndexView(LoginRequiredMixin, AdminTemplateView):
         context["users"] = TenantUser.objects.all()
         context["revenue"] = Tenant.total_revenue()
         ProductType.objects.create_defaults()
-        context["staff"] = Profile.objects.filter()
+        context["staff"] = TenantUser.objects.filter(type="Staff")
         active_date = []
         active_count = []
         inactive_count = []
@@ -88,9 +91,9 @@ class AdminIndexView(LoginRequiredMixin, AdminTemplateView):
 
         context["customers"] = Customer.objects.filter().exclude(email="AnonymousUser")
         context["users"] = TenantUser.objects.all()
-        context["active_tickets"] = Ticket.objects.select_related("queue").exclude(
-            status__in=[Ticket.CLOSED_STATUS, Ticket.RESOLVED_STATUS],
-        )
+        # context["active_tickets"] = Ticket.objects.select_related("queue").exclude(
+        #     status__in=[Ticket.CLOSED_STATUS, Ticket.RESOLVED_STATUS],
+        # )
         return context
 
 
@@ -100,6 +103,6 @@ class TeamsIndexView(LoginRequiredMixin, AdminTemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        context["simple_teams"] = SimpleTeam.objects.all()
-        context["teams"] = Team.objects.all()
+        # context["simple_teams"] = SimpleTeam.objects.all()
+        # context["teams"] = Team.objects.all()
         return context

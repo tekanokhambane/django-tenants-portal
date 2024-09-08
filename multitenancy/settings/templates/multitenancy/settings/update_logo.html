@@ -1,6 +1,8 @@
 {% extends "multitenancy/admin/base.html" %}
 {% load bootstrap4 %}
 
+{% load static %}
+
 {% block page_title %}Update Logo{% endblock page_title %}
 
 {%block breadcrumbs%}
@@ -14,11 +16,27 @@
 
 <!-- Main content -->
 <section class="content">
-    <div class="container text-dark">
-        <img class="img-thumbnail" src="{{object.logo.url}}" style="width:100px" alt="Company Logo"/>
+    <div class="container text-dark ">
+      <div class="row gy-5 d-grid align-items-center">
+        <div class="col-md-6 text-center">
+          <img class="img-thumbnail align-self-center" src="{{object.logo.url}}" style="width:250px" alt="Company Logo"/>
+
+        </div>
+        <div class="col-md-6 ">
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <strong>Upload Logo</strong>
+            </div>
+            <div class="card-body ">
+              <div id="drag-drop-area" class=" w-100"></div>
+              <div id="error-message" style="color: red;"></div>
+            </div> <!-- .card-body -->
+          </div> <!-- .card -->
+        </div> <!-- .col -->
+      </div>
         
         
-        <form method="POST" enctype="multipart/form-data">
+        {% comment %} <form method="POST" enctype="multipart/form-data">
 
             <!-- Security token -->
             {% csrf_token %}
@@ -28,7 +46,7 @@
             
             <input type="submit" class="btn btn-info" value="Submit">
             <a class="btn btn-danger text-light" href="{% url "generalsettings_index" %}" >Cancel</a>
-        </form>
+        </form> {% endcomment %}
         
 
     </div><!-- /.container-fluid -->
@@ -37,5 +55,48 @@
 {% endblock main_content %}
 
 {%block custom_js%}
-
+<script>
+    var uptarg = document.getElementById('drag-drop-area');
+    const errorMessageElement = document.getElementById('error-message');
+    if (uptarg)
+    {
+      var uppy = Uppy.Core().use(Uppy.Dashboard,
+      {
+        inline: true,
+        target: uptarg,
+        restrictions:{
+          maxNumberOfFiles: 1
+        },
+        proudlyDisplayPoweredByUppy: false,
+        theme: 'light',
+        width: 770,
+        height: 210,
+        plugins: ['Webcam']
+      }).use(Uppy.XHRUpload,
+      {
+        endpoint: '/api/settings/logo/1/',
+        method: 'PATCH',  // Use PATCH to partially update the logo
+        fieldName: 'logo',  // Field name to update in the model
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'  // Django CSRF token for protection
+        }
+        
+      });
+      uppy.on('complete', (result) =>
+      {
+        console.log('Upload complete! We’ve uploaded these files:', result.successful)
+        console.log('Update complete! We’ve updated the logo with these files:', result.successful);
+            const updatedFiles = result.successful;
+            updatedFiles.forEach(file => {
+                console.log(file.uploadURL);  // Optionally display the updated file URL
+            });
+      });
+       // Handle upload errors
+       uppy.on('upload-error', (file, error, response) => {
+        console.error('Error uploading file:', error);
+        const errorMessage = response?.body?.detail || 'An error occurred while uploading. Please try again.';
+        errorMessageElement.innerHTML = errorMessage;  // Display the error message
+    });
+    }
+  </script>
 {%endblock%}

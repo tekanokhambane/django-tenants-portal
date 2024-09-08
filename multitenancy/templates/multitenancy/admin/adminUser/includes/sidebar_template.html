@@ -1,5 +1,5 @@
 {% load static %}{% load multitenancy_tags %}
-{% load i18n helpdesk_staff %}
+{% comment %} {% load i18n helpdesk_staff %} {% endcomment %}
 {% get_company_details as details %}
 
 <!-- Main Sidebar Container -->
@@ -22,7 +22,10 @@
 
             </div>
             <div class="info">
-                <a href="{% url 'profiles_detail' username=user.username %}" class="d-block">Hi,
+                <a
+                href="#"
+                 {% comment %} href="{% url 'profiles_detail' username=user.username %}" {% endcomment %}
+                  class="d-block">Hi,
                     {{user}}!</a>
             </div>
         </div>
@@ -117,7 +120,7 @@
                 {% comment "" %}
                 support
                 {% endcomment %}
-                <li class="nav-item has-treeview ">
+                {% comment %} <li class="nav-item has-treeview ">
                     <a href="#"
                         class="nav-link {% if url_name == 'dashboard' or url_name == 'list' or url_name == 'submit' or url_name == 'report_index' or url_name == 'kb_index'%}active{% endif %}">
                         <i class="nav-icon fas fa-headset"></i>
@@ -192,7 +195,7 @@
                         </li>
                         {% endif %}
                     </ul>
-                </li>
+                </li> {% endcomment %}
                 {% comment "" %}
                 Billing
                 {% endcomment %}

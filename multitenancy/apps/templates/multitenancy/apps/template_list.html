@@ -14,31 +14,24 @@
 <section class="content">
     <div class="container-fluid">
         <!-- /.row -->
-        <div class="row">
-            <div class="col-md">
-                <div class="mb-5 mr-3">
-                    <form method="get" id="filter-form" class="input-group input-group-md" style="width: 250px;">
-                        <input type="text" name="q" class="form-control float-right" placeholder="Search templates">
-                        <div class="input-group-append">
-                            <button type="submit" disabled id="" class="btn btn-success"><i
-                                    class="fas fa-search"></i></button>
-                        </div>
-                        <form />
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="mb-5 mr-3">
-                    <a href="{% url "create_template" %}" class="btn btn-success text-light shadow float-right"></i> Add new
-                            template</i></a>
-                </div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-12">
 
                 <div class="card text-dark">
                     <div class="card-header">
-                        <h3 class="card-title">Templates</h3>
+                        <div class="row">
+                            <div class="col-md">
+                            <h3 class="card-title">Templates</h3>
+                            </div>
+            
+                            <div class="col-md">
+                                <div class="mb-5 ">
+                                    {% include "multitenancy/apps/includes/create_template_modal.html" %}
+                                    
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -48,11 +41,11 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>slug</th>
                                     <th>Type</th>
-                                    <th>Description</th>
                                     <th>Created</th>
                                     <th>Modified</th>
-
+                                    {% comment %} <th></th> {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>

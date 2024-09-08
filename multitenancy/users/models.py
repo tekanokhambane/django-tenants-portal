@@ -10,7 +10,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import Group
 from tenant_users.permissions.models import UserTenantPermissions
-from multitenancy.profiles.models import Profile
+
+# from multitenancy.profiles.models import Profile
 
 
 def upload_avatar_to(instance, filename):
@@ -83,9 +84,9 @@ class TenantUser(UserProfile):
     type = models.CharField(
         _("Type"), max_length=255, choices=Types.choices, default=Types.CUSTOMER
     )
-    first_name = models.CharField(max_length=300, blank=True, null=True)
-    last_name = models.CharField(max_length=300, blank=True, null=True)
-    username = models.CharField(max_length=250, blank=True, null=True)
+    first_name = models.CharField(max_length=300, blank=False, null=False)
+    last_name = models.CharField(max_length=300, blank=False, null=False)
+    username = models.CharField(max_length=250, blank=False, null=False)
     groups = models.ManyToManyField(Group, blank=True)
     # note = models.CharField(max_length=300, blank=True, null=True)
     signup_confirmation = models.BooleanField(default=False)
@@ -197,16 +198,16 @@ class Customer(TenantUser):
         return super().save(*args, **kwargs)
 
 
-@receiver(post_save, sender=TenantUser)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.type == TenantUser.Types.ADMIN:
-            Profile.objects.create(user=instance)
-        elif instance.type == TenantUser.Types.STAFF:
-            Profile.objects.create(user=instance)
-            # UserTenantPermissions.objects.create(
-            #     profile_id=instance.pk, is_staff=True, is_superuser=False
-            # )
+# @receiver(post_save, sender=TenantUser)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         if instance.type == TenantUser.Types.ADMIN:
+#             Profile.objects.create(user=instance)
+#         elif instance.type == TenantUser.Types.STAFF:
+#             Profile.objects.create(user=instance)
+#             # UserTenantPermissions.objects.create(
+#             #     profile_id=instance.pk, is_staff=True, is_superuser=False
+#             # )
 
 
-post_save.connect(create_user_profile, sender=TenantUser)
+# post_save.connect(create_user_profile, sender=TenantUser)

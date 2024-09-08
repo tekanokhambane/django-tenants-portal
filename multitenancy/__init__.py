@@ -1,5 +1,6 @@
 from pkgutil import extend_path
 from . import *
+
 __path__ = extend_path(__path__, __name__)  # noqa
 """
 Maintains version of django-mutlitenancy.

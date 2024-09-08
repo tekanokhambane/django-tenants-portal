@@ -10,8 +10,6 @@ import account.views
 from django.views.generic import View
 from multitenancy.admin.forms import SignupForm
 
-from multitenancy.profiles.models import Profile
-
 
 class pageNotFound(View):
     def get(self, request, *args, **kwargs):
@@ -47,9 +45,7 @@ class LoginView(account.views.LoginView):
                         "team_dashboard", urlconf="multitenancy.urls"
                     )
                 else:
-                    fallback_url = reverse(
-                        "customer_dashboard", urlconf="multitenancy.urls"
-                    )
+                    fallback_url = reverse("customer_dashboard")
         kwargs.setdefault("redirect_field_name", self.get_redirect_field_name())
         return default_redirect(self.request, fallback_url, **kwargs)
 

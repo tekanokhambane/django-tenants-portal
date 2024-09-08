@@ -1,10 +1,11 @@
 from django.urls import path, include
 
 # from django.conf.urls import url
-from .admin import team_urls
-from .admin import customer_urls
+# from .admin import team_urls
+# from .admin import customer_urls
 from .admin import urls as admin_urls
-from .profiles import urls as profile_urls
+
+# from .profiles import urls as profile_urls
 from .subscriptions import urls as subscription_urls
 from .users import urls as users_urls
 from .apps import urls as apps_urls
@@ -22,8 +23,8 @@ urlpatterns = [
     path("admin/", include(billing_urls)),
     path("admin/", include(order_urls)),
     path("admin/", include(settings_urls)),
-    path("dashboard/", include(customer_urls)),
-    path("admin/", include(team_urls)),
-    path("admin/profiles/", include(profile_urls)),
+    # path("dashboard/", include(customer_urls)),
+    # path("admin/", include(team_urls)),
+    # path("admin/profiles/", include(profile_urls)),
     path("api/", include(api)),
 ]

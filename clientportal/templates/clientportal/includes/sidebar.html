@@ -1,0 +1,129 @@
+{% load static %}{% load multitenancy_tags %}
+{% comment %} {% load i18n helpdesk_staff %} {% endcomment %}
+{% get_company_details as details %}
+
+<!-- Main Sidebar Container -->
+
+
+<aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+    <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+      <i class="fe fe-x"><span class="sr-only"></span></i>
+    </a>
+    <nav class="vertnav navbar navbar-light">
+      <!-- nav bar -->
+      <div class="w-100 mb-4 d-flex">
+        <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{% url "admin_dashboard" %}">
+            <img src="{{details.logo.logo.url}}" alt="{{details.info.company_name}} Logo"
+            class="navbar-brand-img brand-sm">
+        </a>
+      </div>
+      {% with request.resolver_match.url_name as url_name %}
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item dropdown">
+          <a href="{% url "customer_dashboard" %}" class=" nav-link">
+            <i class="fe fe-home fe-16"></i>
+            <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
+          </a>
+          
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Websites</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100">
+            <a class="nav-link" href="{% url "websites" %}">
+              <i class="fe fe-database fe-16"></i>
+              <span class="ml-3 item-text">view and Manage Websites</span>
+            </a>
+          </li>
+          <li class="nav-item w-100">
+            <a class="nav-link" href="{% url "websites" %}">
+              <i class="fe fe-globe fe-16"></i>
+              <span class="ml-3 item-text">Domains</span>
+            </a>
+          </li>
+       
+        
+      </ul>
+     
+
+      {% endwith %}
+     
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Billing</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+          <li class="nav-item w-100">
+            <a class="nav-link" href="{% url "usersubscription_list" %}">
+              <i class="fe fe-refresh-ccw fe-16"></i>
+              <span class="ml-3 item-text">Plans</span>
+            </a>
+          </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "invoice_list" %}">
+            <i class="fe fe-credit-card fe-16"></i>
+            <span class="ml-3 item-text">Invoice</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "payments" %}">
+            <i class="fe fe-dollar-sign fe-16"></i>
+            <span class="ml-3 item-text">Payments</span>
+          </a>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Support</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+
+        
+        
+        <li class="nav-item dropdown">
+          <a href="#support" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-compass fe-16"></i>
+            <span class="ml-3 item-text">Help Desk</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="support">
+            <a class="nav-link pl-3" href="./support-center.html"><span class="ml-1">Home</span></a>
+            <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Tickets</span></a>
+            <a class="nav-link pl-3" href="./support-ticket-detail.html"><span class="ml-1">Ticket Detail</span></a>
+            <a class="nav-link pl-3" href="./support-faqs.html"><span class="ml-1">FAQs</span></a>
+          </ul>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Settings</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "generalsettings_index" %}">
+            <i class="fe fe-calendar fe-16"></i>
+            <span class="ml-3 item-text">Settings</span>
+          </a>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">Profile</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+            <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Overview</span></a>
+            <a class="nav-link pl-3" href="./profile-settings.html"><span class="ml-1">Settings</span></a>
+            <a class="nav-link pl-3" href="./profile-security.html"><span class="ml-1">Security</span></a>
+            <a class="nav-link pl-3" href="./profile-notification.html"><span class="ml-1">Notifications</span></a>
+          </ul>
+        </li>
+        
+      </ul>
+     
+      </ul>
+      <div class="btn-box w-100 mt-4 mb-1">
+        <a href="{% url 'account_logout' %}" class="btn mb-2 btn-primary btn-lg btn-block">
+            <i class="fas fa-fw fa-sign-out-alt mr-2"></i><span class="small">Logout</span>
+        </a>
+      </div>
+    </nav>
+  </aside>

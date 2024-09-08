@@ -1,0 +1,247 @@
+{% load static %}{% load multitenancy_tags %}
+{% comment %} {% load i18n helpdesk_staff %} {% endcomment %}
+{% get_company_details as details %}
+
+<!-- Main Sidebar Container -->
+
+
+<aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+    <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+      <i class="fe fe-x"><span class="sr-only"></span></i>
+    </a>
+    <nav class="vertnav navbar navbar-light">
+      <!-- nav bar -->
+      <div class="w-100 mb-4 d-flex">
+        <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{% url "admin_dashboard" %}">
+            <img src="{{details.logo.logo.url}}" alt="{{details.info.company_name}} Logo"
+            class="navbar-brand-img brand-sm">
+        </a>
+      </div>
+      {% with request.resolver_match.url_name as url_name %}
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item dropdown">
+          <a href="{% url "admin_dashboard" %}" class=" nav-link">
+            <i class="fe fe-home fe-16"></i>
+            <span class="ml-3 item-text">Dashboard</span><span class="sr-only">(current)</span>
+          </a>
+          
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Websites</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        
+        <li class="nav-item dropdown">
+          <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-sliders fe-16"></i>
+            <span class="ml-3 item-text">Manage Websites</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="tables">
+            <li class="nav-item">
+              <a class="nav-link pl-3 {% if url_name ==   'create_template' or url_name == 'template_list'%}active{% endif %}" href="{% url "template_list" %}"><span class="ml-1 item-text">Manage Templates</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./table_advanced.html"><span class="ml-1 item-text">View Websites</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./table_datatables.html"><span class="ml-1 item-text">Website Settings</span></a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-globe fe-16"></i>
+            <span class="ml-3 item-text">Domains</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="charts">
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./chart-inline.html"><span class="ml-1 item-text">Tenant Domains</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./chart-chartjs.html"><span class="ml-1 item-text">Manage TLD's</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./chart-apexcharts.html"><span class="ml-1 item-text">API's</span></a>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Users</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item dropdown">
+          <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">Customers</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="{% url "create_customer" %}"><span class="ml-1 item-text">Add Customer</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="{% url "customer_list" %}"><span class="ml-1 item-text">Manage Customers</span></a>
+            </li>
+            {% comment %} <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-icons.html"><span class="ml-1 item-text">Icons</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-buttons.html"><span class="ml-1 item-text">Buttons</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-notification.html"><span class="ml-1 item-text">Notifications</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-modals.html"><span class="ml-1 item-text">Modals</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-tabs-accordion.html"><span class="ml-1 item-text">Tabs & Accordion</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-3" href="./ui-progress.html"><span class="ml-1 item-text">Progress</span></a>
+            </li> {% endcomment %}
+          </ul>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "staff_list" %}">
+            <i class="fe fe-users fe-16"></i>
+            <span class="ml-3 item-text">Staff</span>
+            {% comment %} <span class="badge badge-pill badge-primary">New</span> {% endcomment %}
+          </a>
+        </li>
+        
+        
+      </ul>
+      {% endwith %}
+     
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Billing</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "invoice_list" %}">
+            <i class="fe fe-credit-card fe-16"></i>
+            <span class="ml-3 item-text">Invoice</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "usersubscription_list" %}">
+            <i class="fe fe-refresh-ccw fe-16"></i>
+            <span class="ml-3 item-text">Subscriptions</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "payments" %}">
+            <i class="fe fe-dollar-sign fe-16"></i>
+            <span class="ml-3 item-text">Payments</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "credits_list" %}">
+            <i class="fe fe-plus fe-16"></i>
+            <span class="ml-3 item-text">Credits</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "refunds_list" %}">
+            <i class="fe fe-minus fe-16"></i>
+            <span class="ml-3 item-text">Refunds</span>
+          </a>
+        </li>
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "gateways_list" %}">
+            <i class="fe fe-navigation fe-16"></i>
+            <span class="ml-3 item-text">Payment Gateways</span>
+          </a>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a href="#auth" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-package fe-16"></i>
+            <span class="ml-3 item-text">Orders</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="auth">
+            <a class="nav-link pl-3" href="{% url "orders_list" %}"><span class="ml-1">Orders</span></a>
+            <a class="nav-link pl-3" href="{% url "coupon_list" %}"><span class="ml-1">Coupons</span></a>
+            
+          </ul>
+        </li>
+        
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Settings</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100">
+          <a class="nav-link" href="{% url "generalsettings_index" %}">
+            <i class="fe fe-calendar fe-16"></i>
+            <span class="ml-3 item-text">Settings</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#contact" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-book fe-16"></i>
+            <span class="ml-3 item-text">Contacts</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="contact">
+            <a class="nav-link pl-3" href="./contacts-list.html"><span class="ml-1">Contact List</span></a>
+            <a class="nav-link pl-3" href="./contacts-grid.html"><span class="ml-1">Contact Grid</span></a>
+            <a class="nav-link pl-3" href="./contacts-new.html"><span class="ml-1">New Contact</span></a>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#profile" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">Profile</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+            <a class="nav-link pl-3" href="./profile.html"><span class="ml-1">Overview</span></a>
+            <a class="nav-link pl-3" href="./profile-settings.html"><span class="ml-1">Settings</span></a>
+            <a class="nav-link pl-3" href="./profile-security.html"><span class="ml-1">Security</span></a>
+            <a class="nav-link pl-3" href="./profile-notification.html"><span class="ml-1">Notifications</span></a>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#fileman" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-folder fe-16"></i>
+            <span class="ml-3 item-text">File Manager</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="fileman">
+            <a class="nav-link pl-3" href="./files-list.html"><span class="ml-1">Files List</span></a>
+            <a class="nav-link pl-3" href="./files-grid.html"><span class="ml-1">Files Grid</span></a>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#support" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+            <i class="fe fe-compass fe-16"></i>
+            <span class="ml-3 item-text">Help Desk</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="support">
+            <a class="nav-link pl-3" href="./support-center.html"><span class="ml-1">Home</span></a>
+            <a class="nav-link pl-3" href="./support-tickets.html"><span class="ml-1">Tickets</span></a>
+            <a class="nav-link pl-3" href="./support-ticket-detail.html"><span class="ml-1">Ticket Detail</span></a>
+            <a class="nav-link pl-3" href="./support-faqs.html"><span class="ml-1">FAQs</span></a>
+          </ul>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+        <span>Documentation</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100">
+          <a class="nav-link" href="../docs/index.html">
+            <i class="fe fe-help-circle fe-16"></i>
+            <span class="ml-3 item-text">Getting Start</span>
+          </a>
+        </li>
+      </ul>
+      <div class="btn-box w-100 mt-4 mb-1">
+        <a href="https://themeforest.net/item/tinydash-bootstrap-html-admin-dashboard-template/27511269" target="_blank" class="btn mb-2 btn-primary btn-lg btn-block">
+          <i class="fe fe-shopping-cart fe-12 mx-2"></i><span class="small">Buy now</span>
+        </a>
+      </div>
+    </nav>
+  </aside>

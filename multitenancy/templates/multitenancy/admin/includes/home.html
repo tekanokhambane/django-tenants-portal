@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- <h2>Section title</h2> -->
+        <h2 class="h5 page-title">hi, {{user}}</h2>
+        <p class="text-muted">This primitive is meant to make it easy to display both user-centric or activity-centric actions in your app. Sometimes it makes sense to even blend both in a single timeline, which works perfectly.</p>
+        
+        <!-- info small box -->
+        <div class="row">
+          <div class="col-md-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <span class="h2 mb-0">${{revenue}}</span>
+                    <p class="small text-muted mb-0">Total Revenue</p>
+                    <span class="badge badge-pill badge-success">+15.5%</span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="fe fe-32 fe-activity  text-muted mb-0"></span>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <span class="h2 mb-0">{{subscriptions.count}}</span>
+                    <p class="small text-muted mb-0">Subscriptions</p>
+                    <span class="badge badge-pill badge-success">+16.5%</span>
+                  </div>
+                  <div class="col-auto text-muted">
+                    <span class="fa fe-32 fa-refresh  mb-0"></span>
+  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <span class="h2 mb-0">{{customers.count}}</span>
+                    <p class="small text-muted mb-0">Customers</p>
+                    <span class="badge badge-pill badge-warning">+1.5%</span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="fe fe-32 fe-users text-muted mb-0"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card shadow">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <span class="h2 mb-0">186</span>
+                    <p class="small text-muted mb-0">Tickets</p>
+                    <span class="badge badge-pill badge-warning">+1.5%</span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="fe fe-32 fe-mail text-muted mb-0"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- end section -->
+  
+  
+         
+            
+          
+        </div> <!-- /.row -->
+      </div>
+    </div> <!-- .row -->
+  </div>
+  <section class="content">
+      <div class="container-fluid" style="padding-bottom:80px">
+        
+          
+          <!-- ./col -->
+          {% include "multitenancy/admin/adminUser/includes/charts.html" %}
+          {% include "multitenancy/admin/adminUser/includes/recent-activities.html" %}
+        </div>
+        <!-- /.row -->
+          </section>
+       
+        
